@@ -1,7 +1,7 @@
 /**
  * Represents a node in a linked list
  */
-class Node {
+export class Node {
   #value;
   #nextNode;
 

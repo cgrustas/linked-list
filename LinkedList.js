@@ -16,15 +16,12 @@ export class LinkedList {
    * @returns {void}
    */
   append(value) {
-    if (this.#head === null) {
+    if (!this.#head) {
       this.#head = new Node(value, null);
-    } else {
-      let temp = this.#head;
-      while (temp.nextNode !== null) {
-        temp = temp.nextNode;
-      }
-      temp.nextNode = new Node(value, null);
+      return;
     }
+
+    this.#head.append(value);
   }
 
   /**
@@ -41,13 +38,11 @@ export class LinkedList {
    * @returns {Number} linked list size
    */
   size() {
-    let size = 0;
-    let temp = this.#head;
-    while (temp !== null) {
-      size++;
-      temp = temp.nextNode;
+    if (!this.#head) {
+      return 0;
     }
-    return size;
+
+    return this.#head.size();
   }
 
   /**
@@ -63,13 +58,9 @@ export class LinkedList {
    * @returns {Node|null} first node in list, null if empty
    */
   tail() {
-    if (this.#head === null) return this.#head;
+    if (!this.#head) return this.#head;
 
-    let temp = this.#head;
-    while (temp.nextNode !== null) {
-      temp = temp.nextNode;
-    }
-    return temp;
+    return this.#head.tail();
   }
 
   /**
@@ -77,20 +68,9 @@ export class LinkedList {
    * @returns {void}
    */
   pop() {
-    if (this.#head === null) return;
-
-    let prev = this.#head;
-    if (prev.nextNode === null) {
-      this.#head = null;
-      return;
-    }
-
-    let curr = prev.nextNode;
-    while (curr.nextNode !== null) {
-      prev = prev.nextNode;
-      curr = curr.nextNode;
-    }
-    prev.nextNode = null;
+    if (!this.#head) return;
+    else if (this.#head.isLast()) this.#head = null;
+    else this.#head.pop();
   }
 
   /**
@@ -99,13 +79,9 @@ export class LinkedList {
    * @returns true if the passed in value is in the list, otherwise false
    */
   contains(value) {
-    if (this.#head === null) return false;
-    let temp = this.#head;
-    while (temp !== null) {
-      if (temp.value === value) return true;
-      temp = temp.nextNode;
-    }
-    return false;
+    if (!this.#head) return false;
+
+    return this.#head.contains(value);
   }
 
   /**
@@ -114,16 +90,9 @@ export class LinkedList {
    * @returns {Number|null} the index of the node containing value, or null if not found
    */
   find(value) {
-    if (this.#head === null) return null;
+    if (!this.#head) return null;
 
-    let temp = this.#head;
-    let index = 0;
-    while (temp !== null) {
-      if (temp.value === value) return index;
-      temp = temp.nextNode;
-      index++;
-    }
-    return null;
+    return this.#head.find(value);
   }
 
   /**
@@ -131,13 +100,7 @@ export class LinkedList {
    * @returns {string} formatted LinkedList (e.g. ( value ) -> ( value ) -> ( value ) -> null)
    */
   toString() {
-    let string = "";
-    let temp = this.#head;
-    while (temp !== null) {
-      string += `( ${temp.value} ) -> `;
-      temp = temp.nextNode;
-    }
-    string += "null";
-    return string;
+    if (!this.#head) return "null";
+    return this.#head.toString();
   }
 }
